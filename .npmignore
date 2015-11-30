@@ -1,6 +1,9 @@
+angular2/
+devextreme/
 dojo/
 extjs/
 sencha_touch/
+winjs/winjs-*
 *-test.js
 *-test.ts
 *-tests.js
