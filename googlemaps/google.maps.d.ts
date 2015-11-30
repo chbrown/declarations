@@ -1338,6 +1338,7 @@ declare module google.maps {
         lightness?: number;
         saturation?: number;
         visibility?: string;
+        weight?: number;
     }
 
     /***** Layers *****/
@@ -1956,6 +1957,7 @@ declare module google.maps {
             bounds?: LatLngBounds;
             input?: string;
             location?: LatLng;
+            offset?: number;
             radius?: number;
         }
 
