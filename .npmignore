@@ -2,8 +2,10 @@ angular2/
 devextreme/
 dojo/
 extjs/
+mendixmodelsdk/
 sencha_touch/
 winjs/winjs-*
+winrt/
 *-test.js
 *-test.ts
 *-tests.js
