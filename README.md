@@ -7,11 +7,15 @@ An experiment in using the new module resolution strategies in [TypeScript 1.6](
 
 ## Omissions
 
-The following directories were massive (1MB+), so I deleted them:
+The following directories are massive (1MB+), so I exclude them from the npm package:
 
+* `angular2/`
+* `devextreme/`
 * `dojo/`
 * `extjs/`
+* `mendixmodelsdk/`
 * `sencha_touch/`
+* `winrt/`
 
 
 ## License
