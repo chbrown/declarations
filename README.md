@@ -18,6 +18,21 @@ The following directories are massive (1MB+), so I exclude them from the npm pac
 * `winrt/`
 
 
+## Instructions
+
+This is a fork of [DefinitelyTyped](https://github.com/borisyankov/DefinitelyTyped), so it should be trivial to merge in updates.
+
+    git remote add upstream https://github.com/DefinitelyTyped/DefinitelyTyped.git
+    git pull upstream master
+
+Then just confirm the default merge message, set a version, and publish.
+
+    npm version patch
+    git push
+    git push --tags
+    npm publish
+
+
 ## License
 
 This source code is distributed under the MIT License.
