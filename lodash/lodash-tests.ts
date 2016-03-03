@@ -217,15 +217,15 @@ module TestDifference {
     {
         let result: TResult[];
 
-        result = _.difference<TResult>(array);
-        result = _.difference<TResult>(array, array);
-        result = _.difference<TResult>(array, list, array);
-        result = _.difference<TResult>(array, array, list, array);
+        result = _.difference(array);
+        result = _.difference(array, array);
+        result = _.difference(array, list, array);
+        result = _.difference(array, array, list, array);
 
-        result = _.difference<TResult>(list);
-        result = _.difference<TResult>(list, list);
-        result = _.difference<TResult>(list, array, list);
-        result = _.difference<TResult>(list, list, array, list);
+        result = _.difference(list);
+        result = _.difference(list, list);
+        result = _.difference(list, array, list);
+        result = _.difference(list, list, array, list);
     }
 
     {
@@ -6000,6 +6000,41 @@ module TestWrap {
  * Lang *
  ********/
 
+// _.castArray
+namespace TestCastArray {
+    {
+        let result: number[];
+
+        result = _.castArray(42);
+    }
+
+    {
+        let result: _.LoDashImplicitArrayWrapper<number>;
+
+        result = _(42).castArray();
+        result = _([42]).castArray();
+    }
+
+    {
+        let result: _.LoDashImplicitArrayWrapper<{a: number}>;
+
+        result = _({a: 42}).castArray();
+    }
+
+    {
+        let result: _.LoDashExplicitArrayWrapper<number>;
+
+        result = _(42).chain().castArray();
+        result = _([42]).chain().castArray();
+    }
+
+    {
+        let result: _.LoDashExplicitArrayWrapper<{a: number}>;
+
+        result = _({a: 42}).chain().castArray();
+    }
+}
+
 // _.clone
 {
     let result: number;
@@ -6202,6 +6237,37 @@ module TestIsArray {
     }
 }
 
+// _.isArrayBuffer
+module TestIsArrayBuffer {
+    {
+        let value: ArrayBuffer|number;
+
+        if (_.isArrayBuffer(value)) {
+            let result: ArrayBuffer = value;
+        }
+        else {
+            let result: number = value;
+        }
+    }
+
+    {
+        let result: boolean;
+
+        result = _.isArrayBuffer(any);
+        result = _(1).isArrayBuffer();
+        result = _<any>([]).isArrayBuffer();
+        result = _({}).isArrayBuffer();
+    }
+
+    {
+        let result: _.LoDashExplicitWrapper<boolean>;
+
+        result = _(1).chain().isArrayBuffer();
+        result = _<any>([]).chain().isArrayBuffer();
+        result = _({}).chain().isArrayBuffer();
+    }
+}
+
 // _.isArrayLike
 module TestIsArrayLike {
     {
@@ -6302,6 +6368,26 @@ module TestIsBoolean {
         result = _(1).chain().isBoolean();
         result = _<any>([]).chain().isBoolean();
         result = _({}).chain().isBoolean();
+    }
+}
+
+// _.isBuffer
+module TestIsBuffer {
+    {
+        let result: boolean;
+
+        result = _.isBuffer(any);
+        result = _(1).isBuffer();
+        result = _<any>([]).isBuffer();
+        result = _({}).isBuffer();
+    }
+
+    {
+        let result: _.LoDashExplicitWrapper<boolean>;
+
+        result = _(1).chain().isBuffer();
+        result = _<any>([]).chain().isBuffer();
+        result = _({}).chain().isBuffer();
     }
 }
 
@@ -6551,6 +6637,37 @@ module TestIsLength {
         result = _(1).chain().isLength();
         result = _<any>([]).chain().isLength();
         result = _({}).chain().isLength();
+    }
+}
+
+// _.isMap
+module TestIsMap {
+    {
+        let value: number|Map<string, number>;
+
+        if (_.isMap<string, number>(value)) {
+            let result: Map<string, number> = value;
+        }
+        else {
+            let result: number = value;
+        }
+    }
+
+    {
+        let result: boolean;
+
+        result = _.isMap(any);
+        result = _(1).isMap();
+        result = _<any>([]).isMap();
+        result = _({}).isMap();
+    }
+
+    {
+        let result: _.LoDashExplicitWrapper<boolean>;
+
+        result = _(1).chain().isMap();
+        result = _<any>([]).chain().isMap();
+        result = _({}).chain().isMap();
     }
 }
 
@@ -8754,6 +8871,101 @@ module TestInvert {
 
         result = _({}).chain().invert<TResult>();
         result = _({}).chain().invert<TResult>(true);
+    }
+}
+
+// _.invertBy
+namespace TestInvertBy {
+    let array: ({a: number;})[];
+    let list: _.List<{a: number;}>;
+    let dictionary: _.Dictionary<{a: number;}>;
+    let numericDictionary: _.NumericDictionary<{a: number;}>;
+
+    let stringIterator: (value: string) => any;
+    let arrayIterator: (value: {a: number;}) => any;
+    let listIterator: (value: {a: number;}) => any;
+    let dictionaryIterator: (value: {a: number;}) => any;
+    let numericDictionaryIterator: (value: {a: number;}) => any;
+
+    {
+        let result: _.Dictionary<string[]>;
+
+        result = _.invertBy('foo');
+        result = _.invertBy('foo', stringIterator);
+
+        result = _.invertBy(array);
+        result = _.invertBy<{a: number;}>(array, 'a');
+        result = _.invertBy<{a: number;}>(array, arrayIterator);
+        result = _.invertBy<{a: number;}>(array, {a: 1});
+
+        result = _.invertBy(list);
+        result = _.invertBy<{a: number;}>(list, 'a');
+        result = _.invertBy<{a: number;}>(list, listIterator);
+        result = _.invertBy<{a: number;}>(list, {a: 1});
+
+        result = _.invertBy(dictionary);
+        result = _.invertBy<{a: number;}>(dictionary, 'a');
+        result = _.invertBy<{a: number;}>(dictionary, dictionaryIterator);
+        result = _.invertBy<{a: number;}>(dictionary, {a: 1});
+
+        result = _.invertBy(numericDictionary);
+        result = _.invertBy<{a: number;}>(numericDictionary, 'a');
+        result = _.invertBy<{a: number;}>(numericDictionary, numericDictionaryIterator);
+        result = _.invertBy<{a: number;}>(numericDictionary, {a: 1});
+    }
+
+    {
+        let result: _.LoDashImplicitObjectWrapper<_.Dictionary<string[]>>;
+
+        result = _('foo').invertBy();
+        result = _('foo').invertBy(stringIterator);
+
+        result = _(array).invertBy();
+        result = _(array).invertBy('a');
+        result = _(array).invertBy(arrayIterator);
+        result = _(array).invertBy({a: 1});
+
+        result = _(list).invertBy();
+        result = _(list).invertBy('a');
+        result = _(list).invertBy(listIterator);
+        result = _(list).invertBy<{a: number;}>({a: 1});
+
+        result = _(dictionary).invertBy();
+        result = _(dictionary).invertBy('a');
+        result = _(dictionary).invertBy(dictionaryIterator);
+        result = _(dictionary).invertBy<{a: number;}>({a: 1});
+
+        result = _(numericDictionary).invertBy();
+        result = _(numericDictionary).invertBy('a');
+        result = _(numericDictionary).invertBy(numericDictionaryIterator);
+        result = _(numericDictionary).invertBy<{a: number;}>({a: 1});
+    }
+
+    {
+        let result: _.LoDashExplicitObjectWrapper<_.Dictionary<string[]>>;
+
+        result = _('foo').chain().invertBy();
+        result = _('foo').chain().invertBy(stringIterator);
+
+        result = _(array).chain().invertBy();
+        result = _(array).chain().invertBy('a');
+        result = _(array).chain().invertBy(arrayIterator);
+        result = _(array).chain().invertBy({a: 1});
+
+        result = _(list).chain().invertBy();
+        result = _(list).chain().invertBy('a');
+        result = _(list).chain().invertBy(listIterator);
+        result = _(list).chain().invertBy<{a: number;}>({a: 1});
+
+        result = _(dictionary).chain().invertBy();
+        result = _(dictionary).chain().invertBy('a');
+        result = _(dictionary).chain().invertBy(dictionaryIterator);
+        result = _(dictionary).chain().invertBy<{a: number;}>({a: 1});
+
+        result = _(numericDictionary).chain().invertBy();
+        result = _(numericDictionary).chain().invertBy('a');
+        result = _(numericDictionary).chain().invertBy(numericDictionaryIterator);
+        result = _(numericDictionary).chain().invertBy<{a: number;}>({a: 1});
     }
 }
 
