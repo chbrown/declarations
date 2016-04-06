@@ -10,14 +10,14 @@ interface HighChartsNGConfig {
     //The below properties are watched separately for changes.
 
     //Series object (optional) - a list of series using normal highcharts series options.
-    series?: number[]|[number, number][]| HighchartsDataPoint[] | {data:number[];}[];
+    series?: HighchartsIndividualSeriesOptions[];
     //Title configuration (optional)
     title?: {
         text?: string;
     };
     //Boolean to control showng loading status on chart (optional)
     //Could be a string if you want to show specific loading text.
-    loading?: boolean;
+    loading?: boolean | string;
     //Configuration for the xAxis (optional). Currently only one x axis can be dynamically controlled.
     //properties currentMin and currentMax provied 2-way binding to the chart's maximimum and minimum
     xAxis?: {
