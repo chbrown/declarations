@@ -40,6 +40,7 @@ declare enum RequestCredentials { "omit", "same-origin", "include" }
 declare enum RequestCache { "default", "no-store", "reload", "no-cache", "force-cache", "only-if-cached" }
 
 declare class Headers {
+	constructor(init?: Headers|{ [index: string]: string });
 	append(name: string, value: string): void;
 	delete(name: string):void;
 	get(name: string): string;
