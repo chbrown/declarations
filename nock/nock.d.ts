@@ -17,6 +17,9 @@ declare module "nock" {
 		export function enableNetConnect(): void;
 		export function enableNetConnect(regex: RegExp): void;
 		export function enableNetConnect(domain: string): void;
+		
+		export function load(path: string): Object[];
+    		export function restore(): void;
 
 		export var recorder: Recorder;
 
@@ -93,7 +96,10 @@ declare module "nock" {
 			log(out: () => void): Scope;
 
 			delay(timeMs: number): Scope;
+			delayBody(timeMs: number): Scope;
 			delayConnection(timeMs: number): Scope;
+			getTotalDelay(): number;
+			socketDelay(timeMs: number): Scope;
 
 			times(repeats: number): Scope;
 			once(): Scope;

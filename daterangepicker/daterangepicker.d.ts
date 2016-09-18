@@ -11,7 +11,7 @@ interface JQuery {
     daterangepicker(settings?: daterangepicker.Settings, callback?: (start?: string | Date | moment.Moment, end?: string | Date | moment.Moment, label?: string) => any): JQuery;
 }
 
-declare module daterangepicker {
+declare namespace daterangepicker {
 
     interface DatepickerEventObject extends JQueryEventObject {
         date: Date;
@@ -138,5 +138,33 @@ declare module daterangepicker {
          * Format of the date string. example: 'YYYY-MM-DD'
          */
         format?: string;
+        /**
+         * Separator between the startDate and endDate in the attached input element. Example: ' - '
+         */
+        separator?: string;
+        /**
+         * Text for the week label.
+         */
+        weekLabel?: string;
+        /**
+         * Text for the custom range label.
+         */
+        customRangeLabel?: string;
+        /**
+         * The first day of the week (0-6, Sunday to Saturday).
+         */
+        firstDay?: number;
+        /**
+         * Weekday names displayed in the header of calendar.
+         */
+        daysOfWeek?: string[];
+        /**
+         * Month names used in the month select boxes.
+         */
+        monthNames?: string[];
     }
+}
+
+declare module "daterangepicker" {
+    export = daterangepicker;
 }

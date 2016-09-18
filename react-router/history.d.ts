@@ -29,6 +29,7 @@ declare namespace HistoryModule {
         createPath(path: LocationDescriptor): Path
         createHref(path: LocationDescriptor): Href
         createLocation(path?: LocationDescriptor, action?: Action, key?: LocationKey): Location
+        getCurrentLocation: () => Location
 
         /** @deprecated use a location descriptor instead */
         createLocation(path?: Path, state?: LocationState, action?: Action, key?: LocationKey): Location
@@ -68,6 +69,7 @@ declare namespace HistoryModule {
         state: LocationState
         action: Action
         key: LocationKey
+        hash: Hash
         basename?: string
     }
 
@@ -97,6 +99,8 @@ declare namespace HistoryModule {
     type Search = string
 
     type TransitionHook = (location: Location, callback: (result: any) => void) => any
+
+    type Hash = string
 
 
     interface HistoryBeforeUnload {

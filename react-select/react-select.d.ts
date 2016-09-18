@@ -1,11 +1,21 @@
 // Type definitions for react-select v1.0.0
 // Project: https://github.com/JedWatson/react-select
-// Definitions by: ESQUIBET Hugo <https://github.com/Hesquibet/>, Gilad Gray <https://github.com/giladgray/>
+// Definitions by: ESQUIBET Hugo <https://github.com/Hesquibet/>, Gilad Gray <https://github.com/giladgray/>, Izaak Baker <https://github.com/iebaker/>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 /// <reference path="../react/react.d.ts"/>
 
 declare namespace ReactSelect {
+
+    interface AutocompleteResult {
+        /** the search-results to be displayed  */
+        data: Option[],
+        /** Should be set to true, if and only if a longer query with the same prefix
+         * would return a subset of the results
+         * If set to true, more specific queries will not be sent to the server.
+         **/
+        complete: boolean;
+    }
 
     interface Option {
         /** Text for rendering */
@@ -52,18 +62,12 @@ declare namespace ReactSelect {
         valueArray: Option[];
     }
 
-    interface ReactSelectProps extends __React.Props<ReactSelect> {
+    interface ReactSelectProps extends __React.Props<ReactSelectClass> {
         /**
          * text to display when `allowCreate` is true.
          * @default 'Add "{label}"?'
          */
         addLabelText?: string;
-        /**
-         * allow new options to be created in multi mode (displays an "Add <option> ?" item
-         * when a value not already in the options array is entered)
-         * @default false
-         */
-        allowCreate?: boolean;
         /**
          * blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices.
          * @default false
@@ -124,7 +128,7 @@ declare namespace ReactSelect {
         /**
          * method to filter the options array
          */
-        filterOptions?: (options: Array<Option>, filter: string, currentValues: (string | number)[]) => Array<Option>;
+        filterOptions?: (options: Array<Option>, filter: string, currentValues: Array<Option>) => Array<Option>;
         /**
          * whether to strip diacritics when filtering
          * @default true
@@ -192,11 +196,6 @@ declare namespace ReactSelect {
          * field name, for hidden `<input>` tag
          */
         name?: string;
-        /**
-         * factory to create new options when `allowCreate` is true
-         * @default false
-         */
-        newOptionCreator?: (input: string) => Option;
         /**
          * placeholder displayed when there are no matching search results or a falsy value to hide it
          * @default "No results found"
@@ -293,7 +292,7 @@ declare namespace ReactSelect {
         /**
          * initial field value
          */
-        value?: Option | Option[];
+        value?: Option | Option[] | string | string[] | number | number[];
         /**
          * the option property to use for the value
          * @default "value"
@@ -303,7 +302,7 @@ declare namespace ReactSelect {
          * function which returns a custom way to render the value selected
          * @default false
          */
-        valueRenderer?: () => void;
+        valueRenderer?: (option: Option) => JSX.Element;
         /**
          *  optional style to apply to the control
          */
@@ -359,7 +358,7 @@ declare namespace ReactSelect {
         /**
          *  function to call to load options asynchronously
          */
-        loadOptions: (input: string, callback: (options: Option[]) => any) => any;
+        loadOptions: (input: string, callback: (err: any, result: AutocompleteResult) => any) => any;
 
         /**
          *  replaces the placeholder while options are loading
@@ -391,26 +390,56 @@ declare namespace ReactSelect {
         searchingText?: string;
     }
 
-    interface ReactSelect extends  __React.ReactElement<ReactSelectProps> { }
-    interface ReactSelectAsyncClass extends __React.ComponentClass<ReactAsyncSelectProps> {
+    interface ReactCreatableSelectProps extends ReactSelectProps {
+        /**
+         * Searches for any matching option within the set of options. This function prevents
+         * duplicate options from being created.
+         */
+        isOptionUnique?: (arg: { option: Option, options: Option[], labelKey: string, valueKey: string }) => boolean;
+
+        /**
+         * Determines if the current input text represents a valid option.
+         */
+        isValidNewOption?: (arg: { label: string }) => boolean;
+
+        /**
+         * factory to create new options
+         */
+        newOptionCreator?: (input: string) => Option;
+
+        /**
+         * Creates prompt/placeholder for option text.
+         */
+        promptTextCreator?: (filterText: string) => string;
+
+        /**
+         * Decides if a keyDown event (eg its 'keyCode') should result in the creation of a new option.
+         */
+        shouldKeyDownEventCreateNewOption?: (arg: { keyCode: number }) => boolean;
     }
-    const Async: ReactSelectAsyncClass;
-    interface ReactSelectClass extends __React.ComponentClass<ReactSelectProps> {
-        Async: ReactSelectAsyncClass;
+
+    class ReactSelectCreatableClass extends __React.Component<ReactCreatableSelectProps, {}> {
+    }
+    class ReactSelectAsyncClass extends __React.Component<ReactAsyncSelectProps, {}> {
+    }
+    class ReactSelectClass extends __React.Component<ReactSelectProps, {}> {
+        static Async: ReactSelectAsyncClass;
+        static Creatable: ReactSelectCreatableClass;
     }
 
 }
 
 declare module "react-select" {
-    const RS: ReactSelect.ReactSelectClass;
-    export = RS;
+    export = ReactSelect.ReactSelectClass;
 }
 
 declare module "react-select-props" {
 
-    interface Option extends ReactSelect.Option {}
-    interface MenuRendererProps extends ReactSelect.MenuRendererProps {}
+    import Option = ReactSelect.Option;
+    import MenuRendererProps = ReactSelect.MenuRendererProps;
+    import ReactSelectProps = ReactSelect.ReactSelectProps;
+    import ReactAsyncSelectProps = ReactSelect.ReactAsyncSelectProps;
+    import ReactCreatableSelectProps = ReactSelect.ReactCreatableSelectProps;
 
-    export { MenuRendererProps, Option };
+    export { MenuRendererProps, ReactSelectProps, ReactAsyncSelectProps, ReactCreatableSelectProps, Option };
 }
-

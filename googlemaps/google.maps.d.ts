@@ -61,6 +61,7 @@ declare namespace google.maps {
         backgroundColor?: string;
         center?: LatLng|LatLngLiteral;
         disableDefaultUI?: boolean;
+        clickableIcons?: boolean;
         disableDoubleClickZoom?: boolean;
         draggable?: boolean;
         draggableCursor?: string;
@@ -427,7 +428,7 @@ declare namespace google.maps {
         /**
          * Marker position. Required.
          */
-        position: LatLng;
+        position: LatLng|LatLngLiteral;
         /** Image map region definition used for drag/click. */
         shape?: MarkerShape;
         /** Rollover text. */
@@ -755,7 +756,7 @@ declare namespace google.maps {
         zIndex?: number;
     }
 
-    export interface PolyMouseEvent {
+    export interface PolyMouseEvent extends MouseEvent {
         edge?: number;
         path?: number;
         vertex?: number;
@@ -1585,15 +1586,22 @@ declare namespace google.maps {
         setZoom(zoom: number): void;
     }
 
+    export interface FullscreenControlOptions {
+        position?: ControlPosition;
+    }
+
     export interface StreetViewPanoramaOptions {
         addressControl?: boolean;
         addressControlOptions?: StreetViewAddressControlOptions;
         clickToGo?: boolean;
-        disableDefaultUi?: boolean;
+        disableDefaultUI?: boolean;
         disableDoubleClickZoom?: boolean;
         enableCloseButton?: boolean;
+        fullscreenControl?: boolean;
+        fullscreenControlOptions?: FullscreenControlOptions;
         imageDateControl?: boolean;
         linksControl?: boolean;
+        mode?: "html4" | "html5" |"webgl";
         panControl?: boolean;
         panControlOptions?: PanControlOptions;
         pano?: string;
@@ -1602,6 +1610,7 @@ declare namespace google.maps {
         pov?: StreetViewPov;
         scrollwheel?: boolean;
         visible?: boolean;
+        zoom?: number;
         zoomControl?: boolean;
         zoomControlOptions?: ZoomControlOptions;
     }
@@ -1643,7 +1652,29 @@ declare namespace google.maps {
         worldSize?: Size;
     }
 
+    export enum StreetViewPreference {
+        BEST,
+        NEAREST
+    }
+
+    export enum StreetViewSource {
+        DEFAULT,
+        OUTDOOR
+    }
+
+    export interface StreetViewLocationRequest {
+        location: LatLng|LatLngLiteral;
+        preference?: StreetViewPreference;
+        radius?: number;
+        source?: StreetViewSource;
+    }
+
+    export interface StreetViewPanoRequest {
+        pano: string;
+    }
+
     export class StreetViewService {
+        getPanorama(request: StreetViewLocationRequest|StreetViewPanoRequest, cb: (data: StreetViewPanoramaData, status: StreetViewStatus) => void): void;
         getPanoramaById(pano: string, callback: (streetViewPanoramaData: StreetViewPanoramaData, streetViewStatus: StreetViewStatus) => void): void;
         getPanoramaByLocation(latlng: LatLng|LatLngLiteral, radius: number, callback: (streetViewPanoramaData: StreetViewPanoramaData, streetViewStatus: StreetViewStatus) => void ): void;
     }
@@ -1753,21 +1784,22 @@ declare namespace google.maps {
     }
 
     export type LatLngLiteral = { lat: number; lng: number }
+    export type LatLngBoundsLiteral = { east: number; north: number; south: number; west: number }
 
     export class LatLngBounds {
-        constructor(sw?: LatLng, ne?: LatLng);
+        constructor(sw?: LatLng|LatLngLiteral, ne?: LatLng|LatLngLiteral);
         contains(latLng: LatLng): boolean;
-        equals(other: LatLngBounds): boolean;
+        equals(other: LatLngBounds|LatLngBoundsLiteral): boolean;
         extend(point: LatLng): LatLngBounds;
         getCenter(): LatLng;
         getNorthEast(): LatLng;
         getSouthWest(): LatLng;
-        intersects(other: LatLngBounds): boolean;
+        intersects(other: LatLngBounds|LatLngBoundsLiteral): boolean;
         isEmpty(): boolean;
         toSpan(): LatLng;
         toString(): string;
         toUrlValue(precision?: number): string;
-        union(other: LatLngBounds): LatLngBounds;
+        union(other: LatLngBounds|LatLngBoundsLiteral): LatLngBounds;
     }
 
     export class Point {
