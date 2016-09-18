@@ -14,10 +14,13 @@ The following directories are massive (1MB+), so I exclude them from the npm pac
 * `angular2/`
 * `devextreme/`
 * `dojo/`
+* `ej.widgets.all/`
 * `extjs/`
+* `fhir/`
 * `mendixmodelsdk/`
 * `sencha_touch/`
 * `winrt/`
+* `yfiles/`
 
 
 ## Instructions
