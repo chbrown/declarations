@@ -1,11 +1,11 @@
-# declarations ![status: deprecated](https://img.shields.io/badge/status-deprecated-red.svg)]
+# declarations ![status: deprecated](https://img.shields.io/badge/status-deprecated-red.svg)
 
 [![latest version published to npm](https://badge.fury.io/js/declarations.svg)](https://www.npmjs.com/package/declarations)
 
 **`declarations` is deprecated!**
 
-Upgrade to [`TypeScript`](https://www.npmjs.com/package/typescript) 2,
-and use the individually-versioned and npm-installable `@types/*` modules.
+Upgrade to [`TypeScript 2`](https://www.npmjs.com/package/typescript),
+and use the individually-versioned and npm-installable [`@types/*` modules](https://www.npmjs.com/~types).
 
 For example, to install the Node.js standard library declarations:
 
