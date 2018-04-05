@@ -2,9 +2,6 @@
   "name": "declarations",
   "version": "0.1.16",
   "homepage": "https://github.com/chbrown/declarations",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chbrown/declarations.git"
-  },
+  "repository": "git://github.com/chbrown/declarations.git",
   "license": "MIT"
 }
